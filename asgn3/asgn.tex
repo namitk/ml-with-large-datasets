@@ -1,0 +1,121 @@
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{utopia} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+% \addtolength{\oddsidemargin}{-.15in}
+% \addtolength{\evensidemargin}{-0.15in}
+% \addtolength{\textwidth}{-0.5in}
+\addtolength{\topmargin}{-0.5in}
+\addtolength{\textheight}{1.2in}
+
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+% \textsc{university, school or department name} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge{10-605 Assignment 3: Streaming Phrase Finding} \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Namit Katariya (andrew id: nkatariy)} % Your name
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle 
+
+\section*{\textbf{Question 1}}
+
+\begin{itemize}
+\item \underline{Top 20 phrases in apple dataset}: \\
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Phrase} & \textbf{Total Score} & \textbf{Phrasiness} & \textbf{Informativeness} \\
+\hline
+the apple & 1.2228536165218358 &	1.2432898744503482 &	 -0.02043625792851254 \\
+an apple & 0.8944406445408146 &	0.9141930611561296 & -0.01975241661531503 \\
+apple computer &	0.5454707350876162 &	0.5153269508174773 &	0.030143784270138994 \\
+apple pie &	0.42511924266490203 &	0.4257813820316012 &	 -6.62139366699174E-4 \\
+apple juice &	0.3845523229817979 &	0.37532016939839324 &	0.009232153583404656 \\
+apple tree &	0.3203031473549426 &	0.3300593266213714 &	-0.00975617926642878 \\
+and apple &	0.2884501779931379 &	0.2829551017519293 &	0.005495076241208589 \\
+of apple &	0.276889927504093 &	0.27666665778246463 &	2.2326972162837186E-4 \\
+apple menu &	0.2674185989083051 &	0.23121463931942213 &	0.03620395958888299 \\
+apple and &	0.25651541202909567 &	0.25677993318787395 &	-2.6452115877830017E-4 \\
+apple trees &	0.2531338387783706 &	0.2597533431308324 &	-0.00661950435246185 \\
+apple macintosh &	0.25075948131678205 &	0.2329743957619985 &	0.017785085554783565 \\
+apple cider &	0.1987315888283459 &	0.19266771838529745 &	0.006063870443048458 \\
+apple ii &	0.17676004988663813 &	0.18228225479836765 &	-0.005522204911729537 \\
+crab apple &	0.13840079569011662 &	0.1357397183059859 &	0.0026610773841307125 \\
+big apple &	0.13082483408143342 &	0.1291819135789967 &	0.001642920502436726 \\
+apple orchard &	0.1050118516363894 &	0.10709009117147242 &	-0.002078239535083016 \\
+apple event &	0.09766629161175833 &	0.06441261462073067 &	0.033253676991027666 \\
+apple of &	0.09081973265221893 &	0.09665921413558815 &	-0.00583948148336922 \\
+with apple &	0.08768841716919668 &	0.08568149612676443 &	0.0020069210424322444 \\
+\hline
+\end{tabular}
+
+\pagebreak
+
+\item \underline{Top 20 phrases in the Full dataset}: \\
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Phrase} & \textbf{Total Score} & \textbf{Phrasiness} & \textbf{Informativeness} \\
+\hline
+of the &  0.015740232192325256 &    0.017813394986453294 &    -0.0020731627941280384 \\
+in the &  0.010734501314750868 &    0.011247332134259502 &    -5.128308195086337E-4 \\
+on the &  0.004977961433819259 &    0.005036476548505788 &    -5.851511468652945E-5 \\
+it is &   0.004822895986738756 &    0.005143167904779404 &    -3.2027191804064867E-4 \\
+to be &   0.0047495731325583315 &   0.0049241633342931275 &   -1.7459020173479645E-4 \\
+new york &        0.004669992497639615 &    0.004677253397120053 &    -7.2608994804381016E-6 \\
+can be &  0.003910800205769494 &    0.003863083241497727 &    4.771696427176755E-5 \\
+to the &  0.0032016026888147735 &   0.003586433512796285 &    -3.8483082398151145E-4 \\
+et al &   0.0031318276472495797 &   0.0028986416726793996 &   2.331859745701799E-4 \\
+have been &       0.0029801576977533527 &   0.0030971464502816902 &   -1.1698875252833747E-4 \\
+as a &    0.0029629052146228 &      0.0029140852510580262 &   4.88199635647739E-5 \\
+united states &   0.002921780355416181 &    0.0029851908240693765 &   -6.341046865319557E-5 \\
+it was &  0.002869638745334329 &    0.002966842862802441 &    -9.720411746811221E-5 \\
+from the &        0.0028344451647436394 &   0.0029243777769915325 &   -8.993261224789303E-5 \\
+at the &  0.002808246862117229 &    0.002792815672996763 &    1.543118912046588E-5 \\
+may be &  0.0028042632082229246 &   0.0029639021899455172 &   -1.5963898172259266E-4 \\
+has been &        0.002723665789608882 &    0.0028400505478043975 &   -1.1638475819551547E-4 \\
+such as & 0.0026773995951420975 &   0.0024950322720301305 &   1.8236732311196704E-4 \\
+for the & 0.0022182162223921163 &   0.002417832998790889 &    -1.9961677639877262E-4 \\
+the same &        0.0022143770961817457 &   0.002322425397183739 &    -1.08048301001993E-4 \\
+\hline
+\end{tabular}
+\end{itemize}
+
+\section*{\textbf{Question 2.a}}
+\begin{description}
+\item[Apple dataset :] \textit{apple computer}, \textit{apple menu} and \textit{apple macintosh} are three of the top phrases so one could conclude that Apple, the company must have been on the rise. We know that this was, in fact, true. \textit{big apple} is also one of the top which is understandable since New York is the center of a lot of activity. Most of the remaining phrases are simply words that occur together (i.e are valid commonly used phrases) e.g.apple juice, apple cider, apple trees etc I don't think any conclusions can be drawn from those.
+\item[Full dataset :] We do not get any meaningful insights since most of the phrases are frequently occurring words (stopwords) that usually appear together. New York and United States are the only two phrases that do not belong to this category but it's hard to draw any conclusions from them.
+\end{description}
+
+\section*{\textbf{Question 2.b}}
+
+\section*{\textbf{Question 2.c}}
+
+\section*{\textbf{Bonus Question}}
+
+\end{document}

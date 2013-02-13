@@ -1,0 +1,136 @@
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{utopia} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+% \addtolength{\oddsidemargin}{-.15in}
+% \addtolength{\evensidemargin}{-0.15in}
+% \addtolength{\textwidth}{-0.5in}
+\addtolength{\topmargin}{-0.5in}
+\addtolength{\textheight}{1.2in}
+
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+% \textsc{university, school or department name} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge{10-605 Assignment 2: Streaming Naive Bayes} \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Namit Katariya (andrew id: nkatariy)} % Your name
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle 
+
+\section*{\textbf{Question 1}}
+
+\begin{itemize}
+\item \underline{Output of training and testing on the \textit{abstract.tiny} dataset}:
+\begin{verbatim}
+[pt,tr,hu,es,ru,pl,ca,nl,sl,fr,ga,de,hr,el]	 es	-1153.0693283794321
+[es,ru,ca,fr,de,el]	                         hu	-608.7886671488046
+[pt,es,ru,pl,fr,de]	                         pl	-423.69724861996394
+[pt,es,ru,fr,de]	                            hr	-1284.964848739909
+[es,pl,fr,de]	                               sl	-1196.4653958490803
+[pl,ca,de]	                                  hr	-166.0102146311306
+[pt,de]	                                     sl	-526.8324405049511
+[pt,es,pl,fr,de]	                            nl	-694.8456461467524
+[es,ru,de]	                                  el	-412.7442462411836
+[fr,de]	                                     hr	-761.3470264877526
+[nl]	                                        hu	-320.78872549292925
+[fr,ga]	                                     pl	-171.56168490813403
+[hu]	                                        el	-412.22099809741906
+[fr]	                                        sl	-942.251046966511
+[fr,de]	                                     hr	-167.2141874354565
+[pt,es,pl,ca,nl,fr]	                         nl	-56.24669699411067
+[el]	                                        nl	-61.48047583952113
+[de]	                                        hu	-728.5117534282172
+[fr]	                                        nl	-36.19910766605365
+[pt,fr]	                                     fr	-102.17297364515815
+[pl]	                                        pl	-140.47162703358435
+[ru,pl,de]	                                  hu	-150.4372995050212
+[fr]                                        	pt	-41.56044405900344
+[pt,fr]	                                     pt	-132.2834942841487
+[sl,fr,de]	                                  hu	-311.76167589728857
+[nl]	                                        ca	-246.0775024056901
+[ru,pl]	                                     el	-634.5806969564671
+[pt,tr,es,ru,pl,ca,nl,fr,de,el]	             pt	-170.81695352609407
+[pt,es,ru,nl,fr,de]	                         pt	-156.26694453558
+\end{verbatim}
+\item
+\begin{tabular}{|l | c|}
+\hline
+\textbf{Dataset} & \textbf{Percent Correct} \\
+\hline
+abstract.tiny & 27.59 \\
+abstract.small & 64.69 \\
+abstract.full & 71.50 \\ %52675/70300, 46585/70300, 51475/70300, 50173/70085
+links.tiny & 25.0 \\
+links.small & 36.08 \\
+links.full & 71.50 \\ % 11604, 10668, 11147, 10320, 10683, 10637, 10616, 10629, 10603, 10629, 10951, 10481, 10280, 9097
+\hline
+\end{tabular}
+\end{itemize}
+
+\section*{\textbf{Question 2.a}}
+In terms of accuracy, I got around the same numbers for both the datasets. However, links took a lot more time than abstract. Another thing was that I couldn't run streaming NB on the links dataset without breaking it up into multiple files whereas abstract could be run as is. The tokens in links were much longer (long set of underscore-separated words) so the neededWords table will be larger and the look-up to build the counts table might be longer. This might explain the longer execution time.
+
+\section*{\textbf{Question 2.b.i}}
+One could build a classifier for each level in the tree (hierarchy) but allow a lower level classifier to predict positive for a node $n$ only if the classifier for the level above also predicts positive for parent($n$) or in other words, we use the child classifier only if the parent classifier predicted it as negative. For training on lower levels, one could use only instances in the training set that belong to the corresponding parent.   
+
+\section*{\textbf{Question 2.b.ii}}
+I think the vocabSize that we use for smoothing a particular set of classes should be the size of vocabulary calculated only from the documents belonging to their parent class node. These probabilities will be relatively higher than if we had used the total vocabulary size and so we might get better results. 
+
+\section*{\textbf{Bonus Question}}
+\textbf{Timing Comparison} \\
+\begin{tabular}{| c | c |}
+\hline
+Assignment 1 & 8.002 sec \\
+Assignment 2 & 80.565 sec \\
+\hline
+\end{tabular}
+\vspace*{15pt}
+
+\textbf{Commands used :} I created the following .sh files and measured time using \textit{time bash a1.sh} and \textit{time bash a2.sh}. User+System time was measured and divided by 10 to get the average execution time. 
+
+\pagebreak
+\begin{verbatim}
+Assignment 1: a1.sh
+------------------------
+for i in 1 2 3 4 5 6 7 8 9 10
+do
+    cat ../asgn1_data/RCV1.small_train.txt | java NBTrain > /dev/null
+done
+
+Assignment 2: a2.sh
+-------------------
+for i in 1 2 3 4 5 6 7 8 9 10
+do
+    cat ../asgn1_data/RCV1.small_train.txt | java -Xmx128m NBLargeVocabTrain | 
+                          sort -k1,1 -t ';' -T . | java -Xmx128m Aggregator > /dev/null
+done
+\end{verbatim}
+
+\end{document}
